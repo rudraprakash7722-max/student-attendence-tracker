@@ -11,13 +11,7 @@ function retrieveStudentsFromLocalStorage() {
 function App() {
   const [students, setStudents] = useState(retrieveStudentsFromLocalStorage());
 
-  const [filter, setFilter] = useState('all');
 
-  const filteredStudents = students.filter((student) => {
-    if (filter === 'present') return student.present;
-    if (filter === 'absent') return !student.present;
-    return true;
-  });
  
   const [filter, setFilter] = useState('all');
 
