@@ -1,10 +1,9 @@
 function StudentCard({ students, setStudents }) {
-  if (students.length === 0) {
-    return <p className="roster-empty">No students match this view.</p>;
-  }
-
+  
   return (
     <div className="roster-list">
+      {students.length === 0 && <p className="no-students">No students to display</p>}
+      {students.length > 0 && <p className="student-count">{students.length} student{students.length > 1 ? 's' : ''}</p>}
       {students.map((student) => (
         <div className="student-card" key={student.id}>
           <span className="student-id">{String(student.id).padStart(2, '0')}</span>

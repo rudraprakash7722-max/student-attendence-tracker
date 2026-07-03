@@ -1,14 +1,24 @@
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import StudentList from './StudentList.jsx';
 import StudentCard from './StudentCard.jsx';
 import './App.css';
 
-function App() {
-  const [students, setStudents] = useState([
-    { name: 'John Doe', id: 1, present: false },
-    { name: 'Jane Smith', id: 2, present: true },
-  ]);
+function retrieveStudentsFromLocalStorage() {
+  const storedStudents = localStorage.getItem('students');
+  return storedStudents ? JSON.parse(storedStudents) : [];
+}
 
+function App() {
+  const [students, setStudents] = useState(retrieveStudentsFromLocalStorage());
+
+  const [filter, setFilter] = useState('all');
+
+  const filteredStudents = students.filter((student) => {
+    if (filter === 'present') return student.present;
+    if (filter === 'absent') return !student.present;
+    return true;
+  });
+ 
   const [filter, setFilter] = useState('all');
 
   const filteredStudents = students.filter((student) => {
@@ -23,6 +33,12 @@ function App() {
     month: 'long',
     day: 'numeric',
   });
+
+  useEffect(()=>
+  {
+    localStorage.setItem('students', JSON.stringify(students));
+  },[students])
+
 
   return (
     <div className="roster-app">
